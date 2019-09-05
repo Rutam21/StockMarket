@@ -107,8 +107,8 @@ public class AdminController
 	
 
 	@RequestMapping("/ab")
-	public void importData(@RequestParam("file") MultipartFile fileAddress) throws IOException, InvalidFormatException {
-		System.out.println("Mubarka");
+	public ModelAndView importData(@RequestParam("file") MultipartFile fileAddress) throws IOException, InvalidFormatException {
+		System.out.println("Done");
 		//Checking the extensions of file for.xlsx)
 		if (fileAddress.getOriginalFilename().endsWith(".xlsx")) {
 			XSSFWorkbook workbook = new XSSFWorkbook(fileAddress.getInputStream());
@@ -117,7 +117,7 @@ public class AdminController
 			if(!checkFormat(worksheet.getRow(0),null,1)) {
 				System.out.println("Worksheet not correct");
 				workbook.close();
-				return;
+				return new ModelAndView("fail");
 			}else {
 				System.out.println("Correct file");
 			}
@@ -143,7 +143,7 @@ public class AdminController
 			if(!checkFormat(null,worksheet.getRow(0),2)) {
 				System.out.println("Worksheet not correct");
 				workbook.close();
-				return;
+				return new ModelAndView("fail");
 			}else {
 				System.out.println("Correct file");
 			}
@@ -161,6 +161,7 @@ public class AdminController
 		}
 
   System.out.println(minDate+" ******* "+maxDate+"********"+noOfRecords);
+  			return new ModelAndView("success");
 	}
 
 	
